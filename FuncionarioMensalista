@@ -1,0 +1,35 @@
+package Projeto;
+
+public class FuncionarioMensalista extends Funcionario {
+	private double horasNoturnas;
+	private boolean periculosidade;
+	private double percentualInsalubridade;
+	private double horasExtras50;
+	private double horasExtras100;
+	
+	public FuncionarioMensalista(String Nome, double SalarioBase, double horasNoturnas, boolean periculosidade,
+							double percentualInsalubridade, double horasExtras50,double horasExtras100) {
+		
+		super(Nome, SalarioBase);
+		this.horasNoturnas = horasNoturnas;
+		this.periculosidade = periculosidade;
+		this.percentualInsalubridade = percentualInsalubridade;
+		this.horasExtras50 = horasExtras50;
+		this.horasExtras100 = horasExtras100;
+				
+	
+	}
+
+	@Override
+	public double calcularSalario() {
+		double valorHora = getSalarioBase() / 220.0; // 220 seria o tanto de horas por mes baseado no clt
+		double adicionalNoturno = horasNoturnas * valorHora * 0.2;
+		double insalubridade = 1518 * (percentualInsalubridade / 100); // 1412 seria o salario minimo
+		double adicionalPericulosidade = periculosidade ? getSalarioBase() * 0.3 : 0;
+		double extra50 = horasExtras50 * valorHora * 1.5;
+		double extra100 = horasExtras100 * valorHora * 2.0;
+		
+		return getSalarioBase() + adicionalNoturno + insalubridade + adicionalPericulosidade + extra50 + extra100;
+	}
+}
+
