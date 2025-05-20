@@ -1,0 +1,20 @@
+package Projeto;
+
+public class FuncionarioComissionado extends Funcionario {
+	private double comissoes;
+	private double bonificacoes;
+	
+	public FuncionarioComissionado(String Nome, double SalarioBase, double comissoes, double bonificacoes) {
+		super(Nome, SalarioBase);
+		this.comissoes = comissoes;
+		this.bonificacoes = bonificacoes;
+	}
+
+	@Override
+	public double calcularSalario() {
+		return getSalarioBase() + comissoes + bonificacoes;
+	}
+
+
+
+}
