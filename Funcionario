@@ -1,20 +1,35 @@
 package Projeto;
 
+import java.util.ArrayList;
+
+
 public abstract class Funcionario {
 	
 	private String nome;
 	private double salarioBase;
+	private int mesesTrabalhados;
+	private ArrayList<Add_Outros> outrosGanhos;
 	
-	public Funcionario(String Nome, Double SalarioBase) {
+	public Funcionario(String Nome, Double SalarioBase, int MesesTrabalhados) {
 		this.nome = Nome;
 		this.salarioBase = SalarioBase;
+		this.mesesTrabalhados = MesesTrabalhados;
+		this.outrosGanhos = new ArrayList<>();
 	}
-	
-	
 	
 	public String getNome() {
 		return nome;
 	}
+
+	public int getMesesTrabalhados() {
+		return mesesTrabalhados;
+	}
+
+
+	public void setMesesTrabalhados(int mesesTrabalhados) {
+		this.mesesTrabalhados = mesesTrabalhados;
+	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -28,14 +43,46 @@ public abstract class Funcionario {
 		this.salarioBase = salarioBase;
 	}
 
+	public void setOutrosGanhos(ArrayList<Add_Outros> outrosGanhos) {
+		this.outrosGanhos = outrosGanhos;
+	}
+
+	public void adicionarOutroGanho(Add_Outros ganho) {
+		outrosGanhos.add(ganho);
+	}
+	
+	public ArrayList<Add_Outros> getOutrosGanhos() {
+		return outrosGanhos;
+	}
+	
+	public double calcularOutrosGanhosTotal() {
+		double total = 0;
+			for (Add_Outros ganho : outrosGanhos) {
+				total += ganho.getQuantidade();
+			}
+			return total;
+	}
+	
+	public abstract void exibirDetalhesSalario();
+	
 	public abstract double calcularSalario();
 	
 	public void exibirResumo() {
-		System.out.println("Nome: " + this.nome);
-		System.out.println("Salario Base : " + this.salarioBase);
-		System.out.println("Salario Total : " + calcularSalario());
+	    System.out.println("Nome: " + getNome());
+	    System.out.printf("Salário Base: R$ %.2f%n", getSalarioBase());
+	    System.out.printf("Salário Total: R$ %.2f%n", calcularSalario());
+	    System.out.println("-------------------------");
+
+	    // Exibir ganhos da lista "outros"
+	    if (!getOutrosGanhos().isEmpty()) {
+	        System.out.println("Outros Ganhos:");
+	        for (Add_Outros ganho : getOutrosGanhos()) {
+	            System.out.printf("- %s: R$ %.2f%n", ganho.getTipo(), ganho.getQuantidade());
+	        }
+	    }
+	    System.out.println("-------------------------");
+	    exibirDetalhesSalario();
 	}
+
 	
-
-
 }
