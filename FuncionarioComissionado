@@ -3,18 +3,31 @@ package Projeto;
 public class FuncionarioComissionado extends Funcionario {
 	private double comissoes;
 	private double bonificacoes;
+	private double totalVendas;
+	private double percentualComissao;
 	
-	public FuncionarioComissionado(String Nome, double SalarioBase, double comissoes, double bonificacoes) {
-		super(Nome, SalarioBase);
+	
+	public FuncionarioComissionado(String Nome, double SalarioBase, int MesesTrabalhados, 
+			double totalVendas, double percentualComissao, double comissoes, double bonificacoes) {
+		super(Nome, SalarioBase, MesesTrabalhados);
 		this.comissoes = comissoes;
 		this.bonificacoes = bonificacoes;
+		this.totalVendas = totalVendas;
+		this.percentualComissao = percentualComissao;
 	}
 
 	@Override
 	public double calcularSalario() {
-		return getSalarioBase() + comissoes + bonificacoes;
+		return getSalarioBase() + comissoes + bonificacoes + totalVendas + percentualComissao;
 	}
 
-
-
+	@Override
+	public void exibirDetalhesSalario() {
+		double comissao = totalVendas * percentualComissao;
+	    
+		System.out.printf(">>> Detalhamento do Salário (Comissionado)%n");
+	    System.out.printf("- Total de Vendas: R$ %.2f%n", totalVendas);
+	    System.out.printf("- Percentual de Comissão: %.2f%%%n", percentualComissao * 100);
+	    System.out.printf("- Comissão Recebida: R$ %.2f%n", comissao);
+	}
 }
