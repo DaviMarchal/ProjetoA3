@@ -3,12 +3,17 @@ package Projeto;
 public class FolhaPagamento{
 	public static void main(String[] args) {
 		
-		Funcionario f1 = new FuncionarioMensalista("Joao",2500,20,true,20,10,5);
-		Funcionario f2 = new FuncionarioComissionado("Maria",1800,1000,500);
-		
-		
+		Funcionario f1 = new FuncionarioMensalista("Joao",2500,20,20,true,10,5,4, 0, 0, false, false);
+		f1.adicionarOutroGanho(new Add_Outros("Ajuda de Custo", 150.00));
 		f1.exibirResumo();
+		
+		System.out.println("-------------------------");
+		
+		Funcionario f2 = new FuncionarioComissionado("Maria",1800,1000,500, 0, 0, 0);
+		f2.adicionarOutroGanho(new Add_Outros("Bônus Projetos", 250.00));
 		f2.exibirResumo();
+		
+		
 		
 	}
 }
