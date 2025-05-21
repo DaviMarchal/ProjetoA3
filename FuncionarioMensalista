@@ -1,35 +1,83 @@
 package Projeto;
 
 public class FuncionarioMensalista extends Funcionario {
-	private double horasNoturnas;
-	private boolean periculosidade;
-	private double percentualInsalubridade;
-	private double horasExtras50;
-	private double horasExtras100;
+	private boolean adicionalNoturno;
+    private boolean insalubridade;
+    private boolean periculosidade;
+    private double horasExtras50;
+    private double horasExtras100;
+    private double comissoes;
+    private double bonificacoes;
 	
-	public FuncionarioMensalista(String Nome, double SalarioBase, double horasNoturnas, boolean periculosidade,
-							double percentualInsalubridade, double horasExtras50,double horasExtras100) {
+	
+	public FuncionarioMensalista(String Nome, double SalarioBase, int MesesTrabalhados, double horasNoturnas, boolean periculosidade,
+							double percentualInsalubridade, double horasExtras50,double horasExtras100, double comissoes, double bonificacoes,
+							boolean adicionalNoturno, boolean insalubridade) {
 		
-		super(Nome, SalarioBase);
-		this.horasNoturnas = horasNoturnas;
+		super(Nome, SalarioBase, MesesTrabalhados);
+		
 		this.periculosidade = periculosidade;
-		this.percentualInsalubridade = percentualInsalubridade;
 		this.horasExtras50 = horasExtras50;
 		this.horasExtras100 = horasExtras100;
-				
-	
+		this.insalubridade = insalubridade;
+		this.adicionalNoturno = adicionalNoturno;
+		this.comissoes = comissoes;
+		this.bonificacoes = bonificacoes;
 	}
-
+	
 	@Override
 	public double calcularSalario() {
+		
 		double valorHora = getSalarioBase() / 220.0; // 220 seria o tanto de horas por mes baseado no clt
-		double adicionalNoturno = horasNoturnas * valorHora * 0.2;
-		double insalubridade = 1518 * (percentualInsalubridade / 100); // 1412 seria o salario minimo
+		
+		double adicionalNoturnoValor = adicionalNoturno ? getSalarioBase() * 0.2 : 0;
+		double insalubridadeValor = insalubridade ? getSalarioBase() * 0.1 : 0;
 		double adicionalPericulosidade = periculosidade ? getSalarioBase() * 0.3 : 0;
 		double extra50 = horasExtras50 * valorHora * 1.5;
 		double extra100 = horasExtras100 * valorHora * 2.0;
+		double calcularFerias = getSalarioBase() + (getSalarioBase() / 3);
+		double calcularDecimoTerceiro = (getSalarioBase()/12) * getMesesTrabalhados();
+		double valorHorasExtras = (extra50) + (extra100);
+		double dsr = valorHorasExtras * 0.2; //DSR estimado 
 		
-		return getSalarioBase() + adicionalNoturno + insalubridade + adicionalPericulosidade + extra50 + extra100;
+		
+		return getSalarioBase() + adicionalNoturnoValor + insalubridadeValor + adicionalPericulosidade + valorHorasExtras
+				+ dsr + calcularFerias + calcularDecimoTerceiro + comissoes + bonificacoes + calcularOutrosGanhosTotal();
 	}
+
+	
+	@Override
+	public void exibirDetalhesSalario() {
+		
+		double valorHora = getSalarioBase() / 220.0; // 220 seria o tanto de horas por mes baseado no clt
+		
+		double adicionalNoturnoValor = adicionalNoturno ? getSalarioBase() * 0.2 : 0;
+		double insalubridadeValor = insalubridade ? getSalarioBase() * 0.1 : 0;
+		double adicionalPericulosidade = periculosidade ? getSalarioBase() * 0.3 : 0;
+		double extra50 = horasExtras50 * valorHora * 1.5;
+		double extra100 = horasExtras100 * valorHora * 2.0;
+		double calcularFerias = getSalarioBase() + (getSalarioBase() / 3);
+		double calcularDecimoTerceiro = (getSalarioBase()/12) * getMesesTrabalhados();
+		double valorHorasExtras = (extra50) + (extra100);
+		double dsr = valorHorasExtras * 0.2; //DSR estimado 
+	
+		System.out.println(">>> Detalhamento do Salário:");
+	    System.out.printf("- Adicional Noturno: R$ %.2f%n", adicionalNoturnoValor);
+	    System.out.printf("- Insalubridade: R$ %.2f%n", insalubridadeValor);
+	    System.out.printf("- Periculosidade: R$ %.2f%n", adicionalPericulosidade);
+	    System.out.printf("- Hora Extra 50%%: R$ %.2f%n", extra50);
+	    System.out.printf("- Hora Extra 100%%: R$ %.2f%n", extra100);
+	   
+	    System.out.printf("- Calculo Ferias (estimado): R$ %.2f%n", calcularFerias);
+	    System.out.printf("- DecimoTerceiro( 13* ): R$ %.2f%n", calcularDecimoTerceiro);
+	    
+	    System.out.printf("- DSR (estimado): R$ %.2f%n", dsr);
+	    System.out.printf("- Comissões: R$ %.2f%n", comissoes);
+	    System.out.printf("- Bonificações: R$ %.2f%n", bonificacoes);
+	
+	
+	}
+
+
 }
 
